@@ -1,6 +1,6 @@
 # Blue Team — Arsenal Defensivo & CTI
 
-Portafolio defensivo con **herramientas de DFIR/Blue Team** y **análisis de campañas de phishing desarticuladas**. Cada entrada incluye telemetría real, indicadores de compromiso (IOCs), tradecraft del actor y **detecciones accionables** (Sigma, YARA, reglas de red/endpoint y mapeo MITRE ATT&CK).
+Portafolio defensivo con **herramientas de DFIR/Blue Team**. Cada entrada incluye telemetría real, indicadores de compromiso (IOCs), tradecraft del actor y **detecciones accionables** (Sigma, YARA, reglas de red/endpoint y mapeo MITRE ATT&CK).
 
 El objetivo es cerrar la brecha entre la observación de un incidente y la defensa: lo que un analista puede instrumentar hoy mismo en su SOC, EDR o NDR.
 
@@ -17,8 +17,7 @@ Blue-Team/
 | Ruta | Tipo | Contenido |
 |---|---|---|
 | [`tools/wazuh-indexer-forensic-exporter`](tools/wazuh-indexer-forensic-exporter) | Herramienta | Exportador forense en Python para Wazuh Indexer / OpenSearch |
-| [`campaigns/powerbi-docusign-phishing`](campaigns/powerbi-docusign-phishing) | Campaña | Phishing vía Power BI + MailinBlack → Kali365 PhaaS |
-| [`campaigns/clickfix-pjud-online`](campaigns/clickfix-pjud-online) | Campaña | ClickFix suplantando al Poder Judicial de Chile → RAT AutoIt polimórfico |
+| [`campaigns/`](campaigns) | Campañas | Carpeta reservada para análisis de campañas de phishing desarticuladas |
 
 ---
 
@@ -40,32 +39,18 @@ Exportador forense en Python para **Wazuh Indexer / OpenSearch**. Extrae eventos
 
 ## 🎣 Campañas de phishing desarticuladas
 
-### 1. Power BI + Docusign (Kali365 PhaaS)
+La carpeta [`campaigns/`](campaigns) queda reservada para el análisis de campañas de phishing desarticuladas (análisis, IOCs y detecciones).
 
-Campaña de phishing con señuelo de **documento urgente ("CrediGestion / Factura Vencida")** que abusa de **MailinBlack SecureLink** (gateway legítimo) y de un **informe público de Power BI "publish-to-web"** con logo falso de **Docusign**, para terminar en una **plataforma PhaaS autoalojada** atribuida al ecosistema **Kali365**.
-
-- **Hallazgo clave:** el hyperlink malicioso no está en el HTML, sino **enterrado en el modelo de datos del visual de Power BI** — solo se extrae renderizando el informe (`modelsAndExploration`). Técnica que burla crawlers, sandboxes y la mayoría de los gateways de correo.
-- Incluye: cadena de ataque paso a paso, infraestructura/OPSEC del actor, IOCs defangados y TTPs MITRE ATT&CK.
-
-→ Análisis completo en [`campaigns/powerbi-docusign-phishing/README.md`](campaigns/powerbi-docusign-phishing/README.md).
-
-### 2. ClickFix Poder Judicial (`pjud[.]online`)
-
-Campaña **ClickFix** que suplanta al **Poder Judicial de Chile** abusando del dominio `pjud[.]online`. La ejecución inicial usa `cmd.exe` + `mshta.exe` para recuperar un HTA remoto, con fingerprinting y verificación anti-VM/anti-sandbox, escalando a **AutoIt** y una **DLL Delphi x86** con capacidades compatibles con process hollowing.
-
-- **Hallazgo clave:** el artefacto entregado es **polimórfico** (variabilidad entre solicitudes), por lo que los hashes individuales tienen baja durabilidad defensiva — la defensa debe basarse en comportamiento y TTPs, no en firmas estáticas.
-- Incluye: detección real observada en **Microsoft Defender XDR**, clustering de infraestructura, análisis de la DLL embebida, secuencia HTTP reconstruida y **detecciones Sigma + YARA**.
-
-→ Análisis completo en [`campaigns/clickfix-pjud-online/README.md`](campaigns/clickfix-pjud-online/README.md).
+> Actualmente sin análisis publicados.
 
 ---
 
-## 🎯 Detecciones incluidas
+## 🎯 Enfoque de detección
 
-- **Sigma** — ejecución ClickFix (línea de comandos `mshta` remota).
-- **YARA** — huella del loader/DLL (process hollowing).
+- **Sigma** — reglas de detección comportamental.
+- **YARA** — huellas de loaders, DLLs y artefactos.
 - **Endpoint / EDR** y **Red / Proxy / NDR** — reglas y comportamientos a instrumentar.
-- **Mapeo MITRE ATT&CK** por campaña.
+- **Mapeo MITRE ATT&CK** por análisis.
 - **IOCs defangados** (dominios, IPs, URLs, hashes, fingerprints) listos para alimentar un TIP/SIEM.
 
 ---
