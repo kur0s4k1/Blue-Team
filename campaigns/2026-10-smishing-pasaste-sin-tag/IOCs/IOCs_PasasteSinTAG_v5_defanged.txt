@@ -1,0 +1,72 @@
+# ============================================================
+# Pasaste Sin TAG - Smishing Campaign (Chile) 2026-10
+# IOCs DEFANGED for blocklist / distribution deployment
+# ============================================================
+# Version: 5.1
+# Analysis date: 2026-10-12
+# TLP: AMBER
+#
+# Defang legend:
+#   [.]        = dot (domains / IPs)
+#   hxxps[:]// = https:// or wss://
+#   hxxp[:]//  = http://
+#
+# WARNING: indicators are defanged. Re-arm before use in tooling.
+
+## [1] DELIVERY / URL SHORTENER
+bit[.]ly/4hWcDcA
+
+## [2] MALICIOUS DOMAINS
+peasastesintag[.]top    # same-day disposable; initial redirect target
+paasastesintag[.]top    # CN of shared TLS cert; hosts real kit + C2 WS
+peasastesintag[.]sbs    # session-issuer hop; emits _entry_session on cloaked redirect
+poasastesintag[.]lat
+poasastesintag[.]help
+piasastesintag[.]sbs
+pastag[.]lol
+tagetccl[.]lol
+pasastesintagclp[.]lol
+
+## [3] NETWORK (IP / ASN)
+43[.]164[.]135[.]134    # C2 origin IP
+ASN AS132203  Tencent Cloud / ACEVILLE PTE.LTD. (Seoul, KR)
+Nameservers: ns1[.]dnsowl[.]com, ns2[.]dnsowl[.]com, ns3[.]dnsowl[.]com, ns1[.]globaldomaingroup[.]com, ns2[.]globaldomaingroup[.]com
+
+## [4] TLS
+Serial:     059855F3FCA9701AEABB1D87F008B8B4CF60
+Shared CN:  paasastesintag[.]top
+Hosts:      pastag[.]lol, tagetccl[.]lol, pasastesintagclp[.]lol
+
+## [5] C2 / KIT ENDPOINTS (HTTP + WS)
+WS path: /ws/user
+/api/crypto/key
+/api/customer/com-pending
+/api/customer/com-ack
+/api/customer/state-sync
+/api/customer/submit
+/api/customer/upload
+/api/customer/checkout-event
+/api/render/page
+/api/render/component-js?template=
+/api/ws/reconnect-nonce?tpl=
+/ws/user
+
+## [6] KIT ARTIFACTS / SECRETS
+Template ID:        JIEYOUTEMPLATE-20260906182151-4A0T
+Session cookie:     _entry_session
+Embedded key hex:   a7ed9430ee8854f4eb407e616b348b1756dbd1f82afa2ca20a8c011dc959eee1
+ENC_SID:            yb7d8stgirqhiqwy
+Affiliate param:    cl=Mc8AuaiI
+
+## [7] LEGITIMATE REFERENCES (NOT IOCs)
+pasastesintag.cl    # official toll/MOP site impersonated (do NOT block)
+
+## [8] DETECTION SIGNATURES (behavioral)
+- WS upgrade a /ws/user con templateCode JIEYOUTEMPLATE-*
+- GET /api/customer/com-pending con respuesta conteniendo "dp":true
+- GET /api/render/page?template=...&page=index|success
+- secuencia /api/crypto/key -> /api/render/page -> WS /ws/user
+- close code WS 4001
+- respuesta 20001 con originUrl /api/render/page
+
+# End of IOC list

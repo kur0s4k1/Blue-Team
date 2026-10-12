@@ -12,7 +12,7 @@
     "note": "Cloaking discriminates by source IP (content-level), not by connection. Session cookie was observed issued to a research IP, proving issuance is reversible in principle but gated by victim conditions."
   },
   "infrastructure": {
-    "c2_ip": "43.164.135.134",
+    "c2_ip": "43[.]164[.]135[.]134",
     "asn": "AS132203",
     "hosting": "Tencent Cloud / ACEVILLE PTE.LTD. (Seoul, KR)",
     "registrars": [
@@ -20,69 +20,69 @@
       "Global Domain Group LLC (IANA 3956)"
     ],
     "nameservers": [
-      "ns1.dnsowl.com",
-      "ns2.dnsowl.com",
-      "ns3.dnsowl.com",
-      "ns1.globaldomaingroup.com",
-      "ns2.globaldomaingroup.com"
+      "ns1[.]dnsowl[.]com",
+      "ns2[.]dnsowl[.]com",
+      "ns3[.]dnsowl[.]com",
+      "ns1[.]globaldomaingroup[.]com",
+      "ns2[.]globaldomaingroup[.]com"
     ],
     "dns_notes": "No MX/SPF/TXT records; no PTR. AXFR denied. All active cluster domains resolve to a single IP (SPOF)."
   },
   "tls": {
     "issuer": "Let's Encrypt (ECDSA intermediates YE1 / YE2)",
     "shared_serial": "059855F3FCA9701AEABB1D87F008B8B4CF60",
-    "shared_cn": "paasastesintag.top",
+    "shared_cn": "paasastesintag[.]top",
     "shared_serial_hosts": [
-      "pastag.lol",
-      "tagetccl.lol",
-      "pasastesintagclp.lol"
+      "pastag[.]lol",
+      "tagetccl[.]lol",
+      "pasastesintagclp[.]lol"
     ],
     "pattern": "Cert issued ~30-35 min before domain creation; 90-day validity; reused across domains."
   },
   "domains": [
     {
-      "domain": "peasastesintag.top",
+      "domain": "peasastesintag[.]top",
       "created": "2026-10-12T13:40:38Z",
       "registrar": "NameSilo",
       "note": "same-day disposable; initial redirect target"
     },
     {
-      "domain": "paasastesintag.top",
+      "domain": "paasastesintag[.]top",
       "created": "2026-09-29T13:16:35Z",
       "registrar": "NameSilo",
       "note": "CN of shared TLS cert; hosts real kit + C2 WS"
     },
     {
-      "domain": "peasastesintag.sbs",
+      "domain": "peasastesintag[.]sbs",
       "note": "session-issuer hop; emits _entry_session on cloaked redirect"
     },
     {
-      "domain": "poasastesintag.lat",
+      "domain": "poasastesintag[.]lat",
       "created": "2026-09-29T13:12:47Z",
       "registrar": "NameSilo"
     },
     {
-      "domain": "poasastesintag.help",
+      "domain": "poasastesintag[.]help",
       "created": "2026-10-05T13:13:09Z",
       "registrar": "NameSilo"
     },
     {
-      "domain": "piasastesintag.sbs",
+      "domain": "piasastesintag[.]sbs",
       "created": "2026-09-28T14:56:03Z",
       "registrar": "NameSilo"
     },
     {
-      "domain": "pastag.lol",
+      "domain": "pastag[.]lol",
       "created": "2026-09-10T13:37:41Z",
       "registrar": "Global Domain Group LLC"
     },
     {
-      "domain": "tagetccl.lol",
+      "domain": "tagetccl[.]lol",
       "created": "2026-09-21T12:12:25Z",
       "registrar": "Global Domain Group LLC"
     },
     {
-      "domain": "pasastesintagclp.lol",
+      "domain": "pasastesintagclp[.]lol",
       "created": "2026-09-21T12:12:23Z",
       "registrar": "Global Domain Group LLC"
     },
@@ -97,7 +97,7 @@
     "lifetime": "short-lived / disposable",
     "tls_rotation": "90-day certs abandoned before renewal"
   },
-  "redirect_chain": "bit.ly/4hWcDcA -> 301 -> peasastesintag.top/?cl=Mc8AuaiI -> 302 -> peasastesintag.sbs/6STusqEv/r?_et=<32hex> -> 302 (Set-Cookie _entry_session) -> /6STusqEv/ -> 200 real kit",
+  "redirect_chain": "bit[.]ly/4hWcDcA -> 301 -> peasastesintag[.]top/?cl=Mc8AuaiI -> 302 -> peasastesintag[.]sbs/6STusqEv/r?_et=<32hex> -> 302 (Set-Cookie _entry_session) -> /6STusqEv/ -> 200 real kit",
   "c2_endpoints": [
     "/api/crypto/key",
     "/api/customer/com-pending",
@@ -114,8 +114,8 @@
   "websocket": {
     "path": "/ws/user",
     "url_construction": [
-      "wss://<host>/ws/user?token=<token>&<key>=<encodeURIComponent(config[..])>",
-      "wss://<host>/ws/user?nonce=<encodeURIComponent(nonce)>&<key>=<encodeURIComponent(config[..])>"
+      "hxxps[:]//<host>/ws/user?token=<token>&<key>=<encodeURIComponent(config[..])>",
+      "hxxps[:]//<host>/ws/user?nonce=<encodeURIComponent(nonce)>&<key>=<encodeURIComponent(config[..])>"
     ],
     "nonce_source": "GET /api/ws/reconnect-nonce?tpl=<templateCode>",
     "handshake": [
@@ -167,7 +167,7 @@
   },
   "bootstrap_vars": {
     "BASE_PATH": "/vfIjWKqJ",
-    "OFFICIAL_WEBSITE": "https://pasastesintag.cl",
+    "OFFICIAL_WEBSITE": "hxxps[:]//pasastesintag.cl",
     "ENC_SID": "yb7d8stgirqhiqwy",
     "ENC_KEY_hex": "a7ed9430ee8854f4eb407e616b348b1756dbd1f82afa2ca20a8c011dc959eee1"
   },
@@ -208,18 +208,18 @@
     "language": "Simplified Chinese + inconsistent English (mixed modules)"
   },
   "geolocation_providers": [
-    "ipinfo.io/json",
-    "ip-api.com/json/",
-    "api.ip.sb/geoip",
-    "freeipapi.com/api/json",
-    "geolocation-db.com/json/",
-    "get.geojs.io",
-    "ipapi.co/json/",
-    "ipwho.is/"
+    "ipinfo[.]io/json",
+    "ip-api[.]com/json/",
+    "api[.]ip[.]sb/geoip",
+    "freeipapi[.]com/api/json",
+    "geolocation-db[.]com/json/",
+    "get[.]geojs[.]io",
+    "ipapi[.]co/json/",
+    "ipwho[.]is/"
   ],
   "delivery": {
     "vector": "SMS (smishing)",
-    "shortener": "https://bit.ly/4hWcDcA",
+    "shortener": "hxxps[:]//bit[.]ly/4hWcDcA",
     "affiliate_param": "cl=Mc8AuaiI",
     "gateway": "GSM gateways / SIM boxes (affiliate model)"
   },
@@ -251,12 +251,12 @@
     "Google (2026-06-12) & FBI/Lumen Operation Ghost Hook",
     "CSIRT Nacional Chile alert 2026-09-09"
   ],
-  "version": "5.0",
+  "version": "5.1",
   "c2_protocol": {
-    "ws_endpoint": "wss://peasastesintag.sbs/ws/user?token=<TOKEN>&templateId=3&templateCode=JIEYOUTEMPLATE-20260906182151-4A0T&domain=<domain>&userId=<id>",
+    "ws_endpoint": "hxxps[:]//peasastesintag[.]sbs/ws/user?token=<TOKEN>&templateId=3&templateCode=JIEYOUTEMPLATE-20260906182151-4A0T&domain=<domain>&userId=<id>",
     "cloak_header": {
       "name": "CF-Connecting-IP",
-      "value": "190.44.5.5",
+      "value": "190[.]44[.]5[.]5",
       "effect": "403 sin cabecera / 101 con cabecera"
     },
     "identity_binding": "server-side: el userId de la query se ignora; el servidor responde frame identity con su userId ligado al token",
@@ -309,5 +309,7 @@
     "command_captured": false,
     "command_note": "ningun operador encolo ordenes para la victima sintetica; canal vacio",
     "data_source": "100% datos ficticios; sin informacion de personas reales"
-  }
+  },
+  "defanged": true,
+  "defang_note": "All network indicators defanged for safe publication (dots -> [.] , schemes -> hxxps[:]//). Re-arm before tooling."
 }

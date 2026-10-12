@@ -17,7 +17,7 @@ Blue-Team/
 | Ruta | Tipo | Contenido |
 |---|---|---|
 | [`tools/wazuh-indexer-forensic-exporter`](tools/wazuh-indexer-forensic-exporter) | Herramienta | Exportador forense en Python para Wazuh Indexer / OpenSearch |
-| [`campaigns/`](campaigns) | Campañas | Carpeta reservada para análisis de campañas de phishing desarticuladas |
+| [`campaigns/`](campaigns) | Campañas | Análisis de campañas de phishing desarticuladas (IOCs defangados y detecciones) |
 
 ---
 
@@ -39,9 +39,11 @@ Exportador forense en Python para **Wazuh Indexer / OpenSearch**. Extrae eventos
 
 ## 🎣 Campañas de phishing desarticuladas
 
-La carpeta [`campaigns/`](campaigns) queda reservada para el análisis de campañas de phishing desarticuladas (análisis, IOCs y detecciones).
+La carpeta [`campaigns/`](campaigns) reúne el análisis de campañas de phishing desarticuladas (análisis, IOCs defangados y detecciones).
 
-> Actualmente sin análisis publicados.
+| Campaña | Tipo | Objetivo | Fecha |
+|---|---|---|---|
+| [2026-10 · Smishing «Pasaste sin TAG»](campaigns/2026-10-smishing-pasaste-sin-tag/) | Smishing / PhaaS con C2 | Usuarios de peajes y TAG (Chile) | 2026-10-12 |
 
 ---
 

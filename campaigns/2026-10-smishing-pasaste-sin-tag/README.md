@@ -5,7 +5,7 @@
 **Clasificación:** TLP:AMBER
 **Fecha de análisis:** 2026-10-12
 **Tipo de informe:** CTI técnico / indicadores de compromiso
-**Origen de la muestra:** SMS con enlace `https://bit.ly/4hWcDcA`
+**Origen de la muestra:** SMS con enlace `hxxps[:]//bit[.]ly/4hWcDcA`
 **Sector objetivo:** Usuarios de peajes y TAG en Chile (suplantación de concesionarias / MOP)
 
 ---
@@ -41,8 +41,8 @@ secuencia de **redirecciones 301/302** con inyección de un token de entrada (`_
 de sesión (`_entry_session`):
 
 ```
-bit.ly/4hWcDcA
-   └─ 301 ─> peasastesintag.top/?cl=<afiliado>
+bit[.]ly/4hWcDcA
+   └─ 301 ─> peasastesintag[.]top/?cl=<afiliado>
               └─ 302 ─> <host-cloaking>/<BASE_PATH>/r?_et=<32 hex>
                          └─ 302 + Set-Cookie: _entry_session=JIEYOUTEMPLATE-…:<epoch>.<hmac>
                             └─ 200 ─> kit de phishing
@@ -70,7 +70,7 @@ la redirección al kit activo.
 | Escenario | Resultado |
 |---|---|
 | Sin cabecera de origen | `HTTP 200` — señuelo «Modern Living» |
-| Con `CF-Connecting-IP: 190.44.5.5` | `HTTP 302` — redirección al kit + `_et` |
+| Con `CF-Connecting-IP: 190[.]44[.]5[.]5` | `HTTP 302` — redirección al kit + `_et` |
 
 Las cabeceras `True-Client-IP` y `X-Client-IP` producen el mismo efecto.
 
@@ -111,7 +111,7 @@ Datos que el kit está diseñado para capturar:
 * documentos de identidad (cédula, pasaporte, documentación de empresa).
 
 Adicionalmente, el kit realiza **huella del dispositivo** y geolocalización mediante proveedores
-externos (`get.geojs.io`, `ipwho.is`, `ua-parser-js`), y levanta una conexión WebSocket hacia el C2.
+externos (`get[.]geojs[.]io`, `ipwho[.]is`, `ua-parser-js`), y levanta una conexión WebSocket hacia el C2.
 
 ---
 
@@ -216,10 +216,10 @@ servidor**.
 
 **Detalles de alojamiento:**
 
-* **IP de origen:** `43.164.135.134`
+* **IP de origen:** `43[.]164[.]135[.]134`
 * **ASN:** `AS132203` — Tencent Cloud / ACEVILLE PTE.LTD. (Seúl, KR)
 * **Registradores:** `NameSilo, LLC` (IANA 1479) y `Global Domain Group LLC` (IANA 3956)
-* **Nameservers:** `ns1–3.dnsowl.com`, `ns1–2.globaldomaingroup.com`
+* **Nameservers:** `ns1–3[.]dnsowl[.]com`, `ns1–2[.]globaldomaingroup[.]com`
 * **TLS:** `Let's Encrypt` (intermedios ECDSA YE1/YE2), serial compartido
   `059855F3FCA9701AEABB1D87F008B8B4CF60`
 
@@ -232,11 +232,15 @@ Todos los dominios activos del clúster resuelven a la **misma IP**, lo que cons
 
 ![Infraestructura e IOCs](screenshots/09_iocs_cluster.png)
 
+> **Defang.** Todos los indicadores de red de esta sección están desfangados para su
+> publicación segura: el punto se representa como `[.]` y los esquemas como `hxxps[:]//`.
+> Deben re-armarse antes de usarlos en herramientas de bloqueo o detección.
+
 ### 11.1 Red
 
 | Tipo | Valor |
 |---|---|
-| IPv4 | `43.164.135.134` |
+| IPv4 | `43[.]164[.]135[.]134` |
 | ASN | `AS132203` (Tencent Cloud / ACEVILLE PTE.LTD.) |
 | Hosting | Seúl, Corea del Sur |
 
@@ -244,13 +248,17 @@ Todos los dominios activos del clúster resuelven a la **misma IP**, lo que cons
 
 | Dominio | Rol | Registrador |
 |---|---|---|
-| `peasastesintag.top` | Entrada de la cadena (post-SMS) | NameSilo |
-| `peasastesintag.sbs` | Emisor de sesión / host C2 | — |
-| `poasastesintag.help` | Host del kit (rotado) | — |
-| `poasastesintag.lat` | Infraestructura secundaria | NameSilo |
-| `piasastesintag.sbs` | Infraestructura secundaria | — |
-| `pastag.lol` | Infraestructura secundaria | — |
-| `tagetccl.lol` | Infraestructura secundaria | — |
+| `peasastesintag[.]top` | Entrada de la cadena (post-SMS) | NameSilo |
+| `peasastesintag[.]sbs` | Emisor de sesión / host C2 | — |
+| `poasastesintag[.]help` | Host del kit (rotado) | — |
+| `poasastesintag[.]lat` | Infraestructura secundaria | NameSilo |
+| `piasastesintag[.]sbs` | Infraestructura secundaria | — |
+| `pastag[.]lol` | Infraestructura secundaria | — |
+| `tagetccl[.]lol` | Infraestructura secundaria | — |
+| `pasastesintagclp[.]lol` | Infraestructura secundaria | Global Domain Group |
+
+> `pasastesintag.cl` es el sitio oficial legítimo suplantado: **no** forma parte de los
+> indicadores y no debe bloquearse.
 
 ### 11.3 Artefactos del kit
 
@@ -264,7 +272,10 @@ Todos los dominios activos del clúster resuelven a la **misma IP**, lo que cons
 
 ### 11.4 Archivos
 
-* `IOCs/IOCs_PasasteSinTAG_v5.json` — indicadores estructurados (red, DNS, TLS, cripto, firmas).
+* `IOCs/IOCs_PasasteSinTAG_v5.json` — indicadores estructurados v5.1 (red, DNS, TLS, cripto,
+  firmas), con los valores de red desfangados.
+* `IOCs/IOCs_PasasteSinTAG_v5_defanged.txt` — lista plana de indicadores desfangados,
+  categorizada para su carga directa en listas de bloqueo.
 
 ---
 
@@ -287,7 +298,7 @@ Reglas de detección sugeridas para SIEM / IDS / proxies:
 
 **Bloqueo de red**
 
-* Bloquear a nivel de DNS, proxy y correo los dominios de la sección 11.2 y la IP `43.164.135.134`.
+* Bloquear a nivel de DNS, proxy y correo los dominios de la sección 11.2 y la IP `43[.]164[.]135[.]134`.
 * Bloquear el tráfico WebSocket saliente hacia `/ws/user` con plantillas `JIEYOUTEMPLATE-*`.
 
 **Detección**
@@ -317,7 +328,8 @@ Reglas de detección sugeridas para SIEM / IDS / proxies:
 .
 ├── README.md                     # Este informe
 ├── IOCs/
-│   └── IOCs_PasasteSinTAG_v5.json
+│   ├── IOCs_PasasteSinTAG_v5.json
+│   └── IOCs_PasasteSinTAG_v5_defanged.txt
 ├── screenshots/                  # Evidencia visual del análisis
 │   ├── 01_decoy_live.png
 │   ├── 02_kit_landing_ssr.png
