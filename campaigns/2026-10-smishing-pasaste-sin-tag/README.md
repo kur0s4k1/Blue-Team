@@ -2,6 +2,14 @@
 
 ## Análisis de infraestructura, kit PhaaS y canal de comando y control
 
+| Campo | Valor |
+|---|---|
+| **Clasificación** | TLP:AMBER |
+| **Fecha de análisis** | 2026-10-12 |
+| **Tipo de informe** | CTI técnico / indicadores de compromiso |
+| **Origen de la muestra** | SMS con enlace `hxxps[:]//bit[.]ly/4hWcDcA` |
+| **Sector objetivo** | Usuarios de peajes y TAG en Chile (suplantación de concesionarias / MOP) |
+
 ---
 
 ## 1. Resumen ejecutivo
@@ -364,18 +372,6 @@ Reglas de detección sugeridas para SIEM / IDS / proxies:
 | **SSR** | *Server-Side Rendering*: renderizado de páginas en el servidor |
 | **Smishing** | Phishing por SMS |
 | **IOC** | *Indicator of Compromise*: indicador de compromiso |
-
----
-
-## 15. Clasificación y metadatos del informe
-
-| Campo | Valor |
-|---|---|
-| **Clasificación** | TLP:AMBER |
-| **Fecha de análisis** | 2026-10-12 |
-| **Tipo de informe** | CTI técnico / indicadores de compromiso |
-| **Origen de la muestra** | SMS con enlace `hxxps[:]//bit[.]ly/4hWcDcA` |
-| **Sector objetivo** | Usuarios de peajes y TAG en Chile (suplantación de concesionarias / MOP) |
 
 ---
 
