@@ -1,0 +1,313 @@
+{
+  "campaign": "Smishing Pasaste sin TAG (Chile) - MOP toll impersonation",
+  "ecosystem_attribution": "Smishing Triad / Outsider (ChenLun) - PhaaS, Chinese-speaking; TTP-level match (medium confidence)",
+  "kit_base": "SHOPYY / template JIEYOUTEMPLATE-20260906182151-4A0T (distinct build from canonical JWR)",
+  "analysis_date": "2026-10-12",
+  "tlp": "AMBER",
+  "c2_hunt_verdict": {
+    "result": "CLOSED - no unauthenticated access; deliberate 403 requires victim session",
+    "vectors_attempted": 8,
+    "bypass_found": false,
+    "cloaking_state": "ACTIVE - cluster now serves decoys and withholds _entry_session from research/datacenter IPs",
+    "note": "Cloaking discriminates by source IP (content-level), not by connection. Session cookie was observed issued to a research IP, proving issuance is reversible in principle but gated by victim conditions."
+  },
+  "infrastructure": {
+    "c2_ip": "43.164.135.134",
+    "asn": "AS132203",
+    "hosting": "Tencent Cloud / ACEVILLE PTE.LTD. (Seoul, KR)",
+    "registrars": [
+      "NameSilo, LLC (IANA 1479)",
+      "Global Domain Group LLC (IANA 3956)"
+    ],
+    "nameservers": [
+      "ns1.dnsowl.com",
+      "ns2.dnsowl.com",
+      "ns3.dnsowl.com",
+      "ns1.globaldomaingroup.com",
+      "ns2.globaldomaingroup.com"
+    ],
+    "dns_notes": "No MX/SPF/TXT records; no PTR. AXFR denied. All active cluster domains resolve to a single IP (SPOF)."
+  },
+  "tls": {
+    "issuer": "Let's Encrypt (ECDSA intermediates YE1 / YE2)",
+    "shared_serial": "059855F3FCA9701AEABB1D87F008B8B4CF60",
+    "shared_cn": "paasastesintag.top",
+    "shared_serial_hosts": [
+      "pastag.lol",
+      "tagetccl.lol",
+      "pasastesintagclp.lol"
+    ],
+    "pattern": "Cert issued ~30-35 min before domain creation; 90-day validity; reused across domains."
+  },
+  "domains": [
+    {
+      "domain": "peasastesintag.top",
+      "created": "2026-10-12T13:40:38Z",
+      "registrar": "NameSilo",
+      "note": "same-day disposable; initial redirect target"
+    },
+    {
+      "domain": "paasastesintag.top",
+      "created": "2026-09-29T13:16:35Z",
+      "registrar": "NameSilo",
+      "note": "CN of shared TLS cert; hosts real kit + C2 WS"
+    },
+    {
+      "domain": "peasastesintag.sbs",
+      "note": "session-issuer hop; emits _entry_session on cloaked redirect"
+    },
+    {
+      "domain": "poasastesintag.lat",
+      "created": "2026-09-29T13:12:47Z",
+      "registrar": "NameSilo"
+    },
+    {
+      "domain": "poasastesintag.help",
+      "created": "2026-10-05T13:13:09Z",
+      "registrar": "NameSilo"
+    },
+    {
+      "domain": "piasastesintag.sbs",
+      "created": "2026-09-28T14:56:03Z",
+      "registrar": "NameSilo"
+    },
+    {
+      "domain": "pastag.lol",
+      "created": "2026-09-10T13:37:41Z",
+      "registrar": "Global Domain Group LLC"
+    },
+    {
+      "domain": "tagetccl.lol",
+      "created": "2026-09-21T12:12:25Z",
+      "registrar": "Global Domain Group LLC"
+    },
+    {
+      "domain": "pasastesintagclp.lol",
+      "created": "2026-09-21T12:12:23Z",
+      "registrar": "Global Domain Group LLC"
+    },
+    {
+      "domain": "pasastesintag.cl",
+      "note": "LEGITIMATE official site (not malicious)"
+    }
+  ],
+  "rotation_cadence": {
+    "new_domain_every_days": "3-8",
+    "overlap": true,
+    "lifetime": "short-lived / disposable",
+    "tls_rotation": "90-day certs abandoned before renewal"
+  },
+  "redirect_chain": "bit.ly/4hWcDcA -> 301 -> peasastesintag.top/?cl=Mc8AuaiI -> 302 -> peasastesintag.sbs/6STusqEv/r?_et=<32hex> -> 302 (Set-Cookie _entry_session) -> /6STusqEv/ -> 200 real kit",
+  "c2_endpoints": [
+    "/api/crypto/key",
+    "/api/customer/com-pending",
+    "/api/customer/com-ack",
+    "/api/customer/state-sync",
+    "/api/customer/submit",
+    "/api/customer/upload",
+    "/api/customer/checkout-event",
+    "/api/render/page",
+    "/api/render/component-js?template=",
+    "/api/ws/reconnect-nonce?tpl=",
+    "/ws/user"
+  ],
+  "websocket": {
+    "path": "/ws/user",
+    "url_construction": [
+      "wss://<host>/ws/user?token=<token>&<key>=<encodeURIComponent(config[..])>",
+      "wss://<host>/ws/user?nonce=<encodeURIComponent(nonce)>&<key>=<encodeURIComponent(config[..])>"
+    ],
+    "nonce_source": "GET /api/ws/reconnect-nonce?tpl=<templateCode>",
+    "handshake": [
+      "session_ready",
+      "ws_challenge",
+      "ws_challenge_response"
+    ],
+    "states": [
+      "CONNECTING",
+      "_connecting",
+      "_ready",
+      "_disconnected"
+    ],
+    "keepalive": "_heartbeatTimer",
+    "reconnect": [
+      "_reconnectTimer",
+      "_reconnectAttempts"
+    ],
+    "takeover_close_code": 4001,
+    "takeover_string": "[WS] Connection replaced by peer session (4001), stop reconnecting",
+    "crypto_errors": [
+      "[Crypto] Not ready, cannot encrypt",
+      "[DP] Failed to decrypt response, reloading..."
+    ]
+  },
+  "operator_command_loop": {
+    "poll": "GET /api/customer/com-pending",
+    "ack": "POST /api/customer/com-ack",
+    "instruct_id_field": "instructId",
+    "command_tokens": [
+      "submit_ack",
+      "close_or_back",
+      "timeout_success"
+    ],
+    "render": [
+      "/api/render/page",
+      "/api/render/component-js?template="
+    ]
+  },
+  "session": {
+    "cookie_name": "_entry_session",
+    "format": "JIEYOUTEMPLATE-20260906182151-4A0T:<epoch>.<32hex-hmac>",
+    "attributes": "Path=/; Max-Age=86400; HttpOnly; Secure",
+    "observed_values": [
+      "JIEYOUTEMPLATE-20260906182151-4A0T:1791817459.0b418418dcf81bd1dd85bad867847a2e",
+      "JIEYOUTEMPLATE-20260906182151-4A0T:1791817475.cf194e225f4f407707ff32133bf87bbc"
+    ],
+    "binding": "session bound to issuing host + client context; replay from different IP/context -> 403"
+  },
+  "bootstrap_vars": {
+    "BASE_PATH": "/vfIjWKqJ",
+    "OFFICIAL_WEBSITE": "https://pasastesintag.cl",
+    "ENC_SID": "yb7d8stgirqhiqwy",
+    "ENC_KEY_hex": "a7ed9430ee8854f4eb407e616b348b1756dbd1f82afa2ca20a8c011dc959eee1"
+  },
+  "crypto": {
+    "algorithm": "AES-CTR",
+    "embedded_key_hex": "a7ed9430ee8854f4eb407e616b348b1756dbd1f82afa2ca20a8c011dc959eee1",
+    "key_length_bytes": 32,
+    "per_campaign_rsa": "GET /api/crypto/key?customerId= returns a different RSA public key per domain/affiliate"
+  },
+  "opsec_weaknesses": {
+    "xff_spoof_cloaking": "Server serves decoy templates based on untrusted X-Forwarded-For / X-Real-IP headers (spoofable, content-only)",
+    "decoy_templates": [
+      "Modern Living — Slow ideas for a faster world",
+      "Dev Notes — Engineering thoughts & build logs",
+      "Studio Works — Design notes from a small independent studio"
+    ],
+    "no_rate_limiting": "15/15 and 10/10 sequential requests returned 200 without throttling",
+    "missing_validation": "/api/crypto/key and /api/customer/com-pending accept arbitrary customerId (return OK / RSA public key)",
+    "info_disclosure": "Error responses echo internal route in originUrl and leak field names/rules",
+    "no_csp": "No Content-Security-Policy header",
+    "open_cors": "access-control-allow-origin: * with X-Shopify-Session allowed",
+    "session_takeover_logic": "_takeoverConnection present; WS close code 4001 allows peer session replacement",
+    "cloud_port_scan": "nmap/naabu from cloud sandbox unreliable (NAT false positives) - not used as evidence"
+  },
+  "operator_fingerprints": {
+    "backend_error_strings": [
+      "客户不存在",
+      "缺少客户ID",
+      "客户ID不能为空",
+      "参数格式错误",
+      "customerId is required"
+    ],
+    "error_field": "originUrl",
+    "headers": [
+      "X-Shopify-Session",
+      "server: nginx"
+    ],
+    "language": "Simplified Chinese + inconsistent English (mixed modules)"
+  },
+  "geolocation_providers": [
+    "ipinfo.io/json",
+    "ip-api.com/json/",
+    "api.ip.sb/geoip",
+    "freeipapi.com/api/json",
+    "geolocation-db.com/json/",
+    "get.geojs.io",
+    "ipapi.co/json/",
+    "ipwho.is/"
+  ],
+  "delivery": {
+    "vector": "SMS (smishing)",
+    "shortener": "https://bit.ly/4hWcDcA",
+    "affiliate_param": "cl=Mc8AuaiI",
+    "gateway": "GSM gateways / SIM boxes (affiliate model)"
+  },
+  "targeting": {
+    "country": "Chile",
+    "brand": "Pasaste sin TAG (MOP / toll concessions)",
+    "pretext": "Unpaid toll / tag fine",
+    "harvested_data": [
+      "license plate",
+      "phone number",
+      "payment card (PAN/expiry/CVV/holder)",
+      "bank credentials",
+      "OTP / Digipass / 2FA",
+      "possibly second card / wallet",
+      "identity documents (ID card, passport, business license)"
+    ]
+  },
+  "detection_signatures": [
+    "WS upgrade a /ws/user con templateCode JIEYOUTEMPLATE-*",
+    "GET /api/customer/com-pending con respuesta conteniendo \"dp\":true",
+    "GET /api/render/page?template=...&page=index|success",
+    "secuencia /api/crypto/key -> /api/render/page -> WS /ws/user",
+    "close code WS 4001",
+    "respuesta 20001 con originUrl /api/render/page"
+  ],
+  "third_party_attribution_refs": [
+    "Group-IB 2026-09-14: JWR kit / Outsider cluster (Smishing Triad)",
+    "Group-IB 2026-09-03: Outsider Phishing Kit (ChenLun), 267 templates, 54+ countries",
+    "Google (2026-06-12) & FBI/Lumen Operation Ghost Hook",
+    "CSIRT Nacional Chile alert 2026-09-09"
+  ],
+  "version": "5.0",
+  "c2_protocol": {
+    "ws_endpoint": "wss://peasastesintag.sbs/ws/user?token=<TOKEN>&templateId=3&templateCode=JIEYOUTEMPLATE-20260906182151-4A0T&domain=<domain>&userId=<id>",
+    "cloak_header": {
+      "name": "CF-Connecting-IP",
+      "value": "190.44.5.5",
+      "effect": "403 sin cabecera / 101 con cabecera"
+    },
+    "identity_binding": "server-side: el userId de la query se ignora; el servidor responde frame identity con su userId ligado al token",
+    "encrypted_types": [
+      "customer_sync",
+      "card_submit",
+      "login_submit",
+      "await_instruct",
+      "instruct_ack"
+    ],
+    "client_crypto": "AES-256-GCM con clave aleatoria envuelta en RSA-OAEP/SHA-256; payload {key,iv,data} base64",
+    "server_crypto": "AES-256-GCM con clave estatica __ENC_KEY__ (fallback __DP_KEY__); payload {e,iv} hex",
+    "command_channel": {
+      "poll_endpoint": "GET /api/customer/com-pending?customerId=<id>",
+      "empty": "{\"code\":0,\"message\":\"OK\"}",
+      "has_command": "{\"code\":0,\"data\":{\"dp\":true,\"e\":\"<hex>\",\"iv\":\"<hex>\"}} -> AES-GCM(__ENC_KEY__) => instruccion del operador",
+      "internal_codes": {
+        "0": "OK",
+        "20001": "Missing parameters / Page not found",
+        "40001/40003/40004/40005": "fallo sesion WS -> reintento"
+      }
+    },
+    "state_sync": "POST /api/customer/state-sync -> {code:0,data:{ok:true,pageChanged:false}}",
+    "render_backend": {
+      "endpoint": "GET /api/render/page?template=<templateCode>&page=<page>&cid=<id>",
+      "format": "{code:0,data:{css,...}} pagina renderizada en servidor (SSR remoto)",
+      "pages_available": {
+        "index": "398KB landing",
+        "success": "198KB confirmacion"
+      },
+      "pages_not_server_side": [
+        "card",
+        "login",
+        "otp",
+        "loading"
+      ],
+      "note": "contenido remotamente mutable sin cambiar el enlace; pasos card/login/otp los inyecta el operador por WS (instruct_*)"
+    },
+    "reconnect_nonce": "GET /api/ws/reconnect-nonce?tpl=<templateCode> (anti-replay; requiere params)",
+    "cloak_decoy": "/admin y /panel devuelven pagina senuelo 'Modern Living - Slow ideas for a faster world'"
+  },
+  "phase2_evidence": {
+    "ws_handshake": "101 confirmado con CF-Connecting-IP",
+    "messages_sent": [
+      "customer_sync(fake victim)",
+      "login_submit(fake rut/clave)",
+      "card_submit(fake PAN)",
+      "await_instruct"
+    ],
+    "command_captured": false,
+    "command_note": "ningun operador encolo ordenes para la victima sintetica; canal vacio",
+    "data_source": "100% datos ficticios; sin informacion de personas reales"
+  }
+}
