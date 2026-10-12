@@ -257,6 +257,7 @@
     "cloak_header": {
       "name": "CF-Connecting-IP",
       "value": "190[.]44[.]5[.]5",
+      "value_provenance": "IP sintetica aleatoria (rango residencial chileno) usada para probar el disparador de cloaking; no corresponde a una victima real ni al origen del analisis",
       "effect": "403 sin cabecera / 101 con cabecera"
     },
     "identity_binding": "server-side: el userId de la query se ignora; el servidor responde frame identity con su userId ligado al token",

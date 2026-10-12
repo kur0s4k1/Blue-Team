@@ -38,6 +38,7 @@ def attempt(label, headers, subprotocols=None):
     except Exception as e:
         print(f"[ERR] {type(e).__name__}: {e}")
 
+# IP sintetica aleatoria de prueba para el cloaking (no de una victima ni del analista)
 base = [
     "CF-Connecting-IP: 190.44.5.5",
     "X-Forwarded-For: 190.44.5.5",

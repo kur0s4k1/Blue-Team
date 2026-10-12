@@ -82,6 +82,10 @@ la redirección al kit activo.
 
 Las cabeceras `True-Client-IP` y `X-Client-IP` producen el mismo efecto.
 
+> El valor `190[.]44[.]5[.]5` es una **dirección sintética generada aleatoriamente** dentro de un
+> rango residencial chileno con fines de prueba del disparador de cloaking; no corresponde a
+> ninguna víctima real ni al origen del análisis.
+
 ![Bypass de cloaking](screenshots/04_cloaking_bypass.png)
 
 ---

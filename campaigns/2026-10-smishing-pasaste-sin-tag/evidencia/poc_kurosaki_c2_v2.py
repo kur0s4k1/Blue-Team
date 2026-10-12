@@ -10,7 +10,7 @@ from cryptography.hazmat.primitives.ciphers.aead import AESGCM
 
 HOST = "peasastesintag.sbs"
 BASE = f"https://{HOST}/6STusqEv"
-CFIP = "190.44.5.5"
+CFIP = "190.44.5.5"  # IP sintetica aleatoria de prueba para el cloaking (no de una victima ni del analista)
 UA = ("Mozilla/5.0 (Linux; Android 13; SM-S901B) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36")
 COOKIE = ("_entry_session=JIEYOUTEMPLATE-20260906182151-4A0T%3A"
