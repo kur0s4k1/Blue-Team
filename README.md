@@ -59,7 +59,7 @@ La carpeta [`campaigns/`](campaigns) reúne el análisis de campañas de phishin
 
 ## ⚠️ Aviso y uso responsable
 
-Este repositorio es material **defensivo y de investigación**. Los IOCs y muestras se publican **defangados** y con fines de detección, threat hunting y respuesta a incidentes. No se realizó acceso no autorizado a infraestructura de terceros; las credenciales o artefactos sensibles observados durante el análisis se omiten deliberadamente.
+Este repositorio es material **defensivo y de investigación**, publicado por un investigador independiente. Los IOCs y muestras se publican **defangados** y con fines de detección, threat hunting y respuesta a incidentes. El análisis se limitó a la observación pasiva y a la reproducción controlada con datos sintéticos; no se modificó ni exfiltró información de la infraestructura observada, y las credenciales o artefactos sensibles se omiten deliberadamente.
 
 ---
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# PoC investigacion defensiva autorizada: interactuar con el C2 del kit
+# PoC de investigacion independiente: interactuar con el C2 del kit
 # "Pasaste sin TAG" como victima ficticia, enviar datos falsos y observar
 # los comandos del operador descifrados. NO usa datos reales.
 import ssl, json, base64, os, random, string, urllib.request, urllib.error
