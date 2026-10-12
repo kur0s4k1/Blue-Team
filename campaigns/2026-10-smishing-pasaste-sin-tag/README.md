@@ -36,6 +36,14 @@ certificados `Let's Encrypt` reutilizados entre dominios.
 
 ## 2. Cadena de entrega y redirección
 
+El vector de entrega es un SMS masivo que suplanta una notificación de tránsito impago y conduce
+al enlace acortado objeto del análisis:
+
+![Mensaje SMS recibido por la víctima](screenshots/SMS_victima_masiva.jpeg)
+
+*Figura 1. Mensaje SMS del atacante tal como llega a la víctima, con el enlace acortado
+`hxxps[:]//bit[.]ly/4hWcDcA` que inicia la cadena de redirección.*
+
 El enlace del SMS pasa por varias capas antes de llegar al contenido. La cadena capturada es una
 secuencia de **redirecciones 301/302** con inyección de un token de entrada (`_et`) y de una cookie
 de sesión (`_entry_session`):
@@ -340,7 +348,9 @@ Reglas de detección sugeridas para SIEM / IDS / proxies:
 │   ├── 07_ws_handshake.png
 │   ├── 08_crypto_protocol.png
 │   ├── 09_iocs_cluster.png
-│   └── 10_infra_diagram.png
+│   ├── 10_infra_diagram.png
+│   └── SMS_victima_masiva.jpeg    # Mensaje SMS del atacante (lure masivo)
+
 └── evidencia/                    # Scripts de reproducción (PoC)
     ├── poc_kurosaki_c2_v2.py
     └── poc_kurosaki_ws.py
